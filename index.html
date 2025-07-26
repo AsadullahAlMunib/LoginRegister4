@@ -12,50 +12,7 @@
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <!-- Bootstrap icon CDN  -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            height: 100vh;
-            background: #fbc;
-            align-content: center;
-            justify-items: center;
-        }
-
-        .container {
-            width: 700px;
-            height: 700px;
-            background: #fff;
-            border-radius: 50%;
-            align-content: center;
-            justify-items: center;
-            box-shadow: inset 0 0 15px 0 rgba(0, 0, 0, 0.675);
-            padding: 50px;
-        }
-
-        .LogInContainer,
-        .RegisterContainer {
-            width: 350px;
-        }
-
-        .head {
-            font-size: 50px;
-            font-family: Serif;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.675);
-        }
-
-        .hidden {
-            display: none;
-        }
-        .visible {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -214,76 +171,7 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
     <!-- JavaScript  -->
-    <script>
-        function PasswordToggle(iconSpan) {
-            const Password = iconSpan.previousElementSibling;
-            const toggleIcon = iconSpan.querySelector('i');
-
-            if (Password.type === 'password') {
-                Password.type = 'text';
-                toggleIcon.classList.remove('bi-eye-slash-fill');
-                toggleIcon.classList.add('bi-eye-fill');
-            } else {
-                Password.type = 'password';
-                toggleIcon.classList.remove('bi-eye-fill');
-                toggleIcon.classList.add('bi-eye-slash-fill');
-            }
-        }
-
-
-        //Password & Confirm Password Should same
-        const CreatePassword = document.getElementById('RegisterPassword');
-        const ConfirmPassword = document.getElementById('RegisterConfirmPassword');
-
-        ConfirmPassword.addEventListener('input', function () {
-            if (CreatePassword.value !== ConfirmPassword.value) {
-                ConfirmPassword.setCustomValidity("Password did not Match!");
-            } else {
-                ConfirmPassword.setCustomValidity("");
-            }
-        });
-
-        //LogIn to Register Page toggle 
-        const fromLogIn = document.getElementById('fromLogIn');
-        const fromRegister = document.getElementById('fromRegister');
-        const LogInContainer = document.getElementById('LogInContainer');
-        const RegisterContainer = document.getElementById('RegisterContainer');
-        fromLogIn.addEventListener('click', function () {
-            LogInContainer.classList.remove('visible');
-            LogInContainer.classList.add('hidden');
-            RegisterContainer.classList.remove('hidden');
-            RegisterContainer.classList.add('visible');
-        });
-        fromRegister.addEventListener('click', function () {
-            RegisterContainer.classList.remove('visible');
-            RegisterContainer.classList.add('hidden');
-            LogInContainer.classList.remove('hidden');
-            LogInContainer.classList.add('visible');
-        });
-
-
-
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                },
-                    false)
-            })
-        })()
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
