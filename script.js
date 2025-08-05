@@ -1,85 +1,135 @@
-function PasswordToggle(iconSpan) {
-    const Password = iconSpan.previousElementSibling;
-    const toggleIcon = iconSpan.querySelector('i');
+// DOM এলিমেন্ট সিলেক্ট করা
+const redRange = document.getElementById('inputRED');
+const greenRange = document.getElementById('inputGREEN');
+const blueRange = document.getElementById('inputBLUE');
 
-    if (Password.type === 'password') {
-        Password.type = 'text';
-        toggleIcon.classList.remove('bi-eye-slash-fill');
-        toggleIcon.classList.add('bi-eye-fill');
-    } else {
-        Password.type = 'password';
-        toggleIcon.classList.remove('bi-eye-fill');
-        toggleIcon.classList.add('bi-eye-slash-fill');
+const redRgbInput = document.getElementById('inputREDrgb');
+const greenRgbInput = document.getElementById('inputGREENrgb');
+const blueRgbInput = document.getElementById('inputBLUErgb');
+
+const redHexInput = document.getElementById('inputREDhex');
+const greenHexInput = document.getElementById('inputGREENhex');
+const blueHexInput = document.getElementById('inputBLUEhex');
+
+const outputRgb = document.getElementById('outputRGB');
+const outputHex = document.getElementById('outputHEX');
+
+// প্রাথমিক ভ্যালু সেট করা
+function initializeValues() {
+    redRange.value = 171;
+    greenRange.value = 205;
+    blueRange.value = 239;
+
+    updateInputs(redRange);
+    updateInputs(greenRange);
+    updateInputs(blueRange);
+
+    updateOutput();
+}
+
+// রেঞ্জ থেকে ইনপুট আপডেট
+function updateInputs(rangeElement) {
+    const value = rangeElement.value;
+    const hexValue = Number(value).toString(16).padStart(2, '0').toUpperCase();
+
+    if (rangeElement.id === 'inputRED') {
+        redRgbInput.value = value;
+        redHexInput.value = hexValue;
+    } else if (rangeElement.id === 'inputGREEN') {
+        greenRgbInput.value = value;
+        greenHexInput.value = hexValue;
+    } else if (rangeElement.id === 'inputBLUE') {
+        blueRgbInput.value = value;
+        blueHexInput.value = hexValue;
     }
 }
 
+// RGB এবং HEX আউটপুট আপডেট
+function updateOutput() {
+    const red = redRange.value;
+    const green = greenRange.value;
+    const blue = blueRange.value;
 
-//Password & Confirm Password Should same
-const CreatePassword = document.getElementById('RegisterPassword');
-const ConfirmPassword = document.getElementById('RegisterConfirmPassword');
+    // RGB আউটপুট
+    outputRgb.value = `rgb(${red}, ${green}, ${blue})`;
 
-ConfirmPassword.addEventListener('input', function() {
-    if (CreatePassword.value !== ConfirmPassword.value) {
-        ConfirmPassword.setCustomValidity("Password did not Match!");
-    } else {
-        ConfirmPassword.setCustomValidity("");
-    }
-});
+    // HEX আউটপুট
+    const hexRed = Number(red).toString(16).padStart(2, '0');
+    const hexGreen = Number(green).toString(16).padStart(2, '0');
+    const hexBlue = Number(blue).toString(16).padStart(2, '0');
+    outputHex.value = `#${hexRed}${hexGreen}${hexBlue}`.toUpperCase();
 
+    // ব্যাকগ্রাউন্ড কালার আপডেট
+    document.body.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+}
 
-//LogIn Page, Register Page & Reset Password Page toggle
-const fromLogIn = document.getElementById('fromLogIn');
-const fromRegister = document.getElementById('fromRegister');
-const toResetPassword = document.getElementById('toResetPassword');
-const fromResetPassword = document.getElementById('fromResetPassword');
+// ইভেন্ট লিসেনার যোগ করা
+function setupEventListeners() {
+    redRange.addEventListener('input', function() {
+        updateInputs(this);
+        updateOutput();
+    });
 
-const LogInContainer = document.getElementById('LogInContainer');
-const RegisterContainer = document.getElementById('RegisterContainer');
-const ResetPasswordContainer = document.getElementById('ResetPasswordContainer');
+    greenRange.addEventListener('input', function() {
+        updateInputs(this);
+        updateOutput();
+    });
 
-fromLogIn.addEventListener('click', function() {
-    LogInContainer.classList.remove('visible');
-    LogInContainer.classList.add('hidden');
-    RegisterContainer.classList.remove('hidden');
-    RegisterContainer.classList.add('visible');
-});
-fromRegister.addEventListener('click', function() {
-    RegisterContainer.classList.remove('visible');
-    RegisterContainer.classList.add('hidden');
-    LogInContainer.classList.remove('hidden');
-    LogInContainer.classList.add('visible');
-});
-toResetPassword.addEventListener('click', function() {
-    LogInContainer.classList.remove('visible');
-    LogInContainer.classList.add('hidden');
-    ResetPasswordContainer.classList.remove('hidden');
-    ResetPasswordContainer.classList.add('visible');
-});
-fromResetPassword.addEventListener('click', function() {
-    ResetPasswordContainer.classList.remove('visible');
-    ResetPasswordContainer.classList.add('hidden');
-    LogInContainer.classList.remove('hidden');
-    LogInContainer.classList.add('visible');
-});
+    blueRange.addEventListener('input', function() {
+        updateInputs(this);
+        updateOutput();
+    });
 
+    // সংখ্যা ইনপুটের জন্য ইভেন্ট লিসেনার
+    [redRgbInput, greenRgbInput, blueRgbInput].forEach(input => {
+        input.addEventListener('input', function() {
+            const value = Math.min(255, Math.max(0, this.value || 0));
+            const rangeElement = document.getElementById(this.id.replace('rgb', ''));
+            rangeElement.value = value;
+            updateInputs(rangeElement);
+            updateOutput();
+        });
+    });
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
+    // HEX ইনপুটের জন্য ইভেন্ট লিসেনার (সংশোধিত)
+    [redHexInput, greenHexInput, blueHexInput].forEach(input => {
+        input.addEventListener('input', function() {
+            // শুধুমাত্র বৈধ HEX ক্যারেক্টার অনুমোদন (0-9, A-F)
+            this.value = this.value.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
+            if (this.value.length > 2) {
+                this.value = this.value.substring(0, 2);
             }
 
-            form.classList.add('was-validated')
-        },
-            false)
-    })
-})()
+            if (this.value.length === 2) {
+                const decimalValue = parseInt(this.value, 16);
+                if (!isNaN(decimalValue)) {
+                    const rangeElement = document.getElementById(this.id.replace('hex', ''));
+                    rangeElement.value = decimalValue;
+                    updateInputs(rangeElement);
+                    updateOutput();
+                }
+            }
+        });
+
+        // HEX ইনপুট ফোকাস হারালে ভ্যালিডেশন
+        input.addEventListener('blur', function() {
+            if (this.value.length === 1) {
+                this.value = this.value.padStart(2, '0');
+                const decimalValue = parseInt(this.value, 16);
+                if (!isNaN(decimalValue)) {
+                    const rangeElement = document.getElementById(this.id.replace('hex', ''));
+                    rangeElement.value = decimalValue;
+                    updateInputs(rangeElement);
+                    updateOutput();
+                }
+            }
+        });
+    });
+}
+
+// পেজ লোড হলে প্রাথমিক ভ্যালু সেট করা
+window.addEventListener('load', function() {
+    initializeValues();
+    setupEventListeners();
+});
