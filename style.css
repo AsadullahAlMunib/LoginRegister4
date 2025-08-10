@@ -1,125 +1,351 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: Sans-Serif;
     box-sizing: border-box;
-    font-family: Serif;
-    font-weight: 600;
+    color: var(--text);
 }
+:root {
+    --primary: #23282d;
+    --secondary: #abcdef;
+    --button1: #8052ff;
+    --button2: #ff52f7;
+    --text: #ffffff;
+    --link: #8bb9fe;
+    --linkHover: #aa7dff;
+    --shadow: rgba(255, 255, 255, 0.1);
+}
+.dayMode {
+    --primary: #abcdef;
+    --secondary: #23282d;
+    --button1: #ff52f7;
+    --button2: #8052ff;
+    --text: #000000;
+    --link: #1116ff;
+    --linkHover: #8bb9fe;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+.fireTheme {
+    --primary: #2b0a02;
+    --secondary: #ff4500;
+    --button1: #ff6f00;
+    --button2: #ff3c00;
+    --text: #fff4e6;
+    --link: #ff9d00;
+    --linkHover: #ffd54f;
+    --shadow: rgba(255, 69, 0, 0.3);
+}
+.greenTheme {
+    --primary: #1b4332;
+    --secondary: #40916c;
+    --button1: #2d6a4f;
+    --button2: #95d5b2;
+    --text: #e9f5f0;
+    --link: #b7e4c7;
+    --linkHover: #74c69d;
+    --shadow: rgba(255, 255, 255, 0.1);
+}
+.purpleTheme {
+    --primary: #2a003f;
+    --secondary: #5e17eb;
+    --button1: #7a0bc0;
+    --button2: #ff00e4;
+    --text: #f8e8ff;
+    --link: #e5b3fe;
+    --linkHover: #b980f0;
+    --shadow: rgba(255, 255, 255, 0.1);
+}
+.dayWarmTheme {
+    --primary: #fff5f8;
+    --secondary: #ff7da4;
+    --button1: #ff7aa8;
+    --button2: #ffb3c6;
+    --text: #2e2e2e;
+    --link: #d63384;
+    --linkHover: #f06595;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
 body {
+    width: 100%;
     height: 100vh;
     align-content: center;
-    text-align: center;
-    background: #ace;
+    background: var(--primary);
 }
 .container {
-    max-width: 500px;
-    padding: 10px;
-    margin: 0 auto;
-}
-label {
-    font-size: 36px;
-}
-.divRED .labelGroup * {
-    color: #f00;
-}
-.divGREEN .labelGroup * {
-    color: #0f0;
-}
-.divBLUE .labelGroup * {
-    color: #00f;
-}
-.labelRED {
-    text-shadow: 1px 1px 2px #0f0, -1px -1px 2px #00f;
-}
-.labelGREEN {
-    text-shadow: 1px 1px 2px #f00, -1px -1px 2px #00f;
-}
-.labelBLUE {
-    text-shadow: 1px 1px 2px #f00, -1px -1px 2px #0f0;
-}
-input[type="range"] {
-    width: 255px;
-    margin: 5px auto 25px;
-}
-
-.labelGroup {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
+    width: min(600px, 95%);
+    height: 600px;
+    background: var(--primary);
+    margin: auto;
+    box-shadow: inset 0 0 10px 5px var(--shadow);
+    padding: 2px;
+    border-radius: 8px;
+    text-align: center;
     align-content: center;
+    z-index: 0;
+    position: relative;
 }
-.labelGroup div {
-    display: flex;
-    flex-direction: column;
+.themeToggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     text-align: center;
+    align-content: center;
+    background: var(--secondary);
+    transition: all 0.5s;
 }
-.labelGroup div input {
-    width: 50px;
-    height: 25px;
-    text-align: center;
-    background: #fff;
-    border: 1px #000;
-    border-style: none solid solid;
+.themeToggle i {
+    color: var(--primary);
     font-size: 18px;
-    border-radius: 8px 0;
 }
-.labelGroup div span {
-    text-transform: capitalize;
-    font-size: 10px;
-    background: #fff;
-    border: 1px #000;
-    border-style: solid solid none;
-    border-radius: 0 8px;
+.themeToggle:hover {
+    transform: rotate(360deg) scale(1.05);
+    border: 1px solid var(--linkHover);
+    box-shadow: 0 0 5px 5px var(--link);
 }
-
-
-.outputSection {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    align-content: center;
+.themeToggle:active {
+    transform: rotate(-30deg) scale(0.95) translateY(2px);
 }
-.outputSection div {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+.container, .themeToggle,
+body, fieldset, input, button, a, i {
+    transition: background 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease;
 }
-.outputSection div input {
-    height: 50px;
-    text-align: center;
-    background: #fff;
-    border: 1px #000;
-    border-style: none solid solid;
+#loginForm,
+#registerForm,
+#forgetPasswordForm {
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+    /* transition: max-height 1s ease-in-out, opacity 1s ease-in-out, transform 1s ease-in-out; */
+    /* transition: max-height 0.8s cubic-bezier(0.77, 0, 0.175, 1),  opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1); */;
+}
+#loginForm.close,
+#registerForm.close,
+#forgetPasswordForm.close {
+    max-height: 0;
+    opacity: 0;
+    transform: scale(0.8);
+}
+#loginForm.open,
+#registerForm.open,
+#forgetPasswordForm.open {
+    max-height: 550px;
+    opacity: 1;
+    transform: scale(1);
+}
+fieldset {
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    padding: 15px;
+    background: var(--primary);
+}
+legend {
+    font-size: 36px;
+    font-weight: bold;
+}
+.inputSection {
+    width: 100%;
+    /* margin-top: 5px;
+            margin-bottom: 5px; */
+}
+.inputGroup {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    /* border-radius: 8px;
+            display: flex; */
+}
+.inputGroup span:first-child {
+    position: absolute;
+    left: 10px;
+    top: 35px;
+    /* transform: translateY(50%); */
+}
+.inputGroup span.passwordToggle {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+}
+.inputGroup span i {
     font-size: 20px;
-    border-radius: 8px 8px 0 0;
+    color: var(--text);
 }
-.outputSection div input#outputRGB {
-    width: 200px;
+.inputGroup input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    padding: 5px 5px 5px 40px;
+    color: var(--text);
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    box-shadow: inset 0 0 20px 5px var(--shadow);
+    transition: 1s;
 }
-.outputSection div input#outputHEX {
-    width: 111px;
+.inputGroup input.password {
+    padding: 5px 40px;
 }
-.outputSection div span {
-    text-transform: capitalize;
+.inputSection label {
+    float: left;
+    font-size: 18px;
+    margin: 3px;
+}
+.inputGroup input:focus {
+    outline: none;
+    border: 1px solid var(--secondary);
+    box-shadow: 0 0 36px 12px var(--shadow);
+}
+.inputGroup input::placeholder {
+    color: var(--text);
+    opacity: 0.7;
+    transition: 1s;
+}
+.inputGroup input:focus::placeholder,
+.inputGroup input:hover::placeholder {
+    color: var(--secondary);
+    opacity: 1;
+}
+.error {
+    position: absolute;
+}
+.inputGroup input:invalid ~ .error {
+    margin-left: 3px;
+    font-size: 10px;
+    color: red;
+    display: block;
+}
+.inputGroup input:valid ~ .error {
+    display: none;
+}
+.extraOption {
+    width: 100%;
+    display: flex;
+    margin: 15px 0 10px;
+    justify-content: space-between;
+}
+.inputCheckbox {
+    display: flex;
+    margin: 0 3px;
+    gap: 5px;
+}
+.inputCheckbox input ~ label {
+    transition: 0.3s;
+}
+.inputCheckbox input:checked ~ label {
+    color: green;
+    /* font-weight: 400; */
+}
+.inputCheckbox input:invalid ~ label {
+    color: red;
+}
+a {
+    color: var(--link);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+a:hover {
+    color: var(--linkHover);
+    text-decoration: underline;
+}
+a:active {
+    transform: scale(0.98);
+}
+.btn {
+    font-size: 24px;
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    background: linear-gradient(135deg, var(--button1), var(--button2));
+    transition: 0.3s;
+}
+.btn:hover {
+    background: linear-gradient(270deg, var(--button1), var(--button2));
+    box-shadow: 0 0 20px 10px var(--shadow);
+    transform: scale(1.02);
+}
+.btn:active {
+    transform: scale(0.98);
+}
+.opositOption {
+    width: 100%;
+    margin: 15px 0 0 3px;
+}
+.opositOption p {
+    float: left;
     font-size: 16px;
-    background: #fff;
-    border: 1px #000;
-    border-style: solid solid none;
-    border-radius: 0 0 8px 8px;
 }
 
-@media only screen and (max-width: 350px) {
-    .outputSection div input {
-        height: 40px;
-        font-size: 16px;
-    }
-    .outputSection div input#outputRGB {
-        width: 150px;
-    }
-    .outputSection div input#outputHEX {
-        width: 85px;
-    }
-    .outputSection div span {
-        font-size: 14px;
-    }
+.socialLink {
+    margin-top: 5px;
+}
+.socialLink a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 4px 7px;
+    line-height: 20px;
+    border: 1px solid var(--link);
+    border-radius: 4px;
+    background: transparent;
+    transition: all 0.3s ease;
+    margin: 2px 0;
+}
+.socialLink a:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: #0d6efd;
+    border-color: transparent;
+}
+.socialLink a i {
+    font-size: 16px;
+}
+.socialLink a:hover i {
+    color: #fff;
+}
+.socialLink a:nth-child(1):hover {
+    background: #d44638;
+}
+.socialLink a:nth-child(2):hover {
+    background: #25d366;
+}
+.socialLink a:nth-child(3):hover {
+    background: #181717;
+}
+.socialLink a:nth-child(4):hover {
+    background: #1877f2;
+}
+.socialLink a:nth-child(5):hover {
+    background: #ff0000;
+}
+.socialLink a:nth-child(6):hover {
+    /* background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); */
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+}
+.socialLink a:nth-child(7):hover {
+    background: #0077b5;
+}
+.socialLink a:nth-child(8):hover {
+    background: #229ed9;
+}
+.socialLink a:active {
+    transform: scale(0.98);
+}
+input[type="reset"] {
+    color: var(--text);
+    margin-right: 3px;
+    border: none;
+    font-size: 14px;
+    border-radius: 2px;
+    background: var(--button2);
+    padding: 0 3px;
+}
+input[type="reset"]:hover {
+    background: var(--button1);
+}
+input[type="reset"]:active {
+    transform: scale(0.99);
 }
