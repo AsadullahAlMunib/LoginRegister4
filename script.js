@@ -1,135 +1,94 @@
-// DOM এলিমেন্ট সিলেক্ট করা
-const redRange = document.getElementById('inputRED');
-const greenRange = document.getElementById('inputGREEN');
-const blueRange = document.getElementById('inputBLUE');
+//Theme toggle system
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = themeToggle.querySelector("i");
+const theme = document.body.classList;
+themeToggle.addEventListener('click', function() {
+    if (!theme.contains('dayMode') && !theme.contains('fireTheme') && !theme.contains('greenTheme') && !theme.contains('purpleTheme')) {
+        themeIcon.classList.add("bi-fire");
+        themeIcon.classList.remove("bi-sun-fill");
+        theme.add("dayMode");
+        theme.remove("fireTheme", "greenTheme", "purpleTheme");
+    } else if (theme.contains('dayMode')) {
+        themeIcon.classList.add("bi-leaf-fill");
+        themeIcon.classList.remove("bi-fire");
+        theme.add("fireTheme");
+        theme.remove("dayMode", "greenTheme", "purpleTheme");
+    } else if (theme.contains('fireTheme')) {
+        themeIcon.classList.add("bi-cpu-fill");
+        themeIcon.classList.remove("bi-leaf-fill");
+        theme.add("greenTheme");
+        theme.remove("dayMode", "fireTheme", "purpleTheme");
+    } else if (theme.contains('greenTheme')) {
+        themeIcon.classList.add("bi-moon-stars-fill");
+        themeIcon.classList.remove("bi-cpu-fill");
+        theme.add("purpleTheme");
+        theme.remove("dayMode", "fireTheme", "greenTheme");
+    } else {
+        themeIcon.classList.add("bi-sun-fill");
+        themeIcon.classList.remove("bi-moon-stars-fill");
+        theme.remove("dayMode", "fireTheme", "greenTheme", "purpleTheme");
+    }
+});
 
-const redRgbInput = document.getElementById('inputREDrgb');
-const greenRgbInput = document.getElementById('inputGREENrgb');
-const blueRgbInput = document.getElementById('inputBLUErgb');
+//Password toggle to Text and opposite
+function passwordToggle(iconSpan) {
+    const Password = iconSpan.previousElementSibling;
+    const toggleIcon = iconSpan.querySelector("i");
 
-const redHexInput = document.getElementById('inputREDhex');
-const greenHexInput = document.getElementById('inputGREENhex');
-const blueHexInput = document.getElementById('inputBLUEhex');
-
-const outputRgb = document.getElementById('outputRGB');
-const outputHex = document.getElementById('outputHEX');
-
-// প্রাথমিক ভ্যালু সেট করা
-function initializeValues() {
-    redRange.value = 171;
-    greenRange.value = 205;
-    blueRange.value = 239;
-
-    updateInputs(redRange);
-    updateInputs(greenRange);
-    updateInputs(blueRange);
-
-    updateOutput();
-}
-
-// রেঞ্জ থেকে ইনপুট আপডেট
-function updateInputs(rangeElement) {
-    const value = rangeElement.value;
-    const hexValue = Number(value).toString(16).padStart(2, '0').toUpperCase();
-
-    if (rangeElement.id === 'inputRED') {
-        redRgbInput.value = value;
-        redHexInput.value = hexValue;
-    } else if (rangeElement.id === 'inputGREEN') {
-        greenRgbInput.value = value;
-        greenHexInput.value = hexValue;
-    } else if (rangeElement.id === 'inputBLUE') {
-        blueRgbInput.value = value;
-        blueHexInput.value = hexValue;
+    if (Password.type === 'password') {
+        Password.type = 'text';
+        toggleIcon.classList.remove('bi-eye-slash-fill');
+        toggleIcon.classList.add('bi-eye-fill');
+    } else {
+        Password.type = 'password';
+        toggleIcon.classList.remove('bi-eye-fill');
+        toggleIcon.classList.add('bi-eye-slash-fill');
     }
 }
 
-// RGB এবং HEX আউটপুট আপডেট
-function updateOutput() {
-    const red = redRange.value;
-    const green = greenRange.value;
-    const blue = blueRange.value;
+//Password & Confirm Password should same
+const createPassword = document.getElementById("registerPassword");
+const confirmPassword = document.getElementById("registerConfirmPassword");
 
-    // RGB আউটপুট
-    outputRgb.value = `rgb(${red}, ${green}, ${blue})`;
+confirmPassword.addEventListener('input', function() {
+    if (confirmPassword.value !== createPassword.value) {
+        confirmPassword.setCustomValidity("Password did not match!");
+    } else {
+        confirmPassword.setCustomValidity("");
+    }
+});
 
-    // HEX আউটপুট
-    const hexRed = Number(red).toString(16).padStart(2, '0');
-    const hexGreen = Number(green).toString(16).padStart(2, '0');
-    const hexBlue = Number(blue).toString(16).padStart(2, '0');
-    outputHex.value = `#${hexRed}${hexGreen}${hexBlue}`.toUpperCase();
+//Login page, Register page & Reset Password page Toggle
+const fromLogIn = document.getElementById("fromLogIn");
+const fromRegister = document.getElementById("fromRegister");
+const toForgetPassword = document.getElementById("toForgetPassword");
+const fromForgetPassword = document.getElementById("fromForgetPassword");
 
-    // ব্যাকগ্রাউন্ড কালার আপডেট
-    document.body.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-}
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const forgetPasswordForm = document.getElementById("forgetPasswordForm");
 
-// ইভেন্ট লিসেনার যোগ করা
-function setupEventListeners() {
-    redRange.addEventListener('input', function() {
-        updateInputs(this);
-        updateOutput();
-    });
-
-    greenRange.addEventListener('input', function() {
-        updateInputs(this);
-        updateOutput();
-    });
-
-    blueRange.addEventListener('input', function() {
-        updateInputs(this);
-        updateOutput();
-    });
-
-    // সংখ্যা ইনপুটের জন্য ইভেন্ট লিসেনার
-    [redRgbInput, greenRgbInput, blueRgbInput].forEach(input => {
-        input.addEventListener('input', function() {
-            const value = Math.min(255, Math.max(0, this.value || 0));
-            const rangeElement = document.getElementById(this.id.replace('rgb', ''));
-            rangeElement.value = value;
-            updateInputs(rangeElement);
-            updateOutput();
-        });
-    });
-
-    // HEX ইনপুটের জন্য ইভেন্ট লিসেনার (সংশোধিত)
-    [redHexInput, greenHexInput, blueHexInput].forEach(input => {
-        input.addEventListener('input', function() {
-            // শুধুমাত্র বৈধ HEX ক্যারেক্টার অনুমোদন (0-9, A-F)
-            this.value = this.value.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
-
-            if (this.value.length > 2) {
-                this.value = this.value.substring(0, 2);
-            }
-
-            if (this.value.length === 2) {
-                const decimalValue = parseInt(this.value, 16);
-                if (!isNaN(decimalValue)) {
-                    const rangeElement = document.getElementById(this.id.replace('hex', ''));
-                    rangeElement.value = decimalValue;
-                    updateInputs(rangeElement);
-                    updateOutput();
-                }
-            }
-        });
-
-        // HEX ইনপুট ফোকাস হারালে ভ্যালিডেশন
-        input.addEventListener('blur', function() {
-            if (this.value.length === 1) {
-                this.value = this.value.padStart(2, '0');
-                const decimalValue = parseInt(this.value, 16);
-                if (!isNaN(decimalValue)) {
-                    const rangeElement = document.getElementById(this.id.replace('hex', ''));
-                    rangeElement.value = decimalValue;
-                    updateInputs(rangeElement);
-                    updateOutput();
-                }
-            }
-        });
-    });
-}
-
-// পেজ লোড হলে প্রাথমিক ভ্যালু সেট করা
-window.addEventListener('load', function() {
-    initializeValues();
-    setupEventListeners();
+fromLogIn.addEventListener('click', function() {
+    loginForm.classList.remove("open");
+    loginForm.classList.add("close");
+    registerForm.classList.remove("close");
+    registerForm.classList.add("open");
+});
+fromRegister.addEventListener('click', function() {
+    registerForm.classList.remove("open");
+    registerForm.classList.add("close");
+    loginForm.classList.remove("close");
+    loginForm.classList.add("open");
+});
+toForgetPassword.addEventListener('click', function() {
+    loginForm.classList.remove("open");
+    loginForm.classList.add("close");
+    forgetPasswordForm.classList.remove("close");
+    forgetPasswordForm.classList.add("open");
+});
+fromForgetPassword.addEventListener('click', function() {
+    forgetPasswordForm.classList.remove("open");
+    forgetPasswordForm.classList.add("close");
+    loginForm.classList.remove("close");
+    loginForm.classList.add("open");
 });
